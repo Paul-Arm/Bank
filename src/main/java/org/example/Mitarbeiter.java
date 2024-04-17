@@ -52,7 +52,18 @@ public class Mitarbeiter extends Person{
         Kunde kunde = mitarbeiter.betreuteKunden.stream().filter(x -> kundenProfil.equals(x.getKundenProfil()))
                 .findFirst()
                 .orElse(null);
-        this.filiale.removeKunde(kunde);
+
+        // remove profile from filiale
+        Filiale f = kundenProfil.getFiliale();
+        f.removeKunde(kunde);
+
+
+
+//        if (kunde.getKundenProfil().getBetreuer().filiale != null){
+//            System.out.println("Kunde wird aus der Filiale entfernt");
+//            kunde.getKundenProfil().getBetreuer().filiale.removeKunde(kunde);
+//        }
+
         kunde.getKundenProfil().getBetreuer().betreuteKunden.remove(kunde);
         kunde.setKundenProfil(null);
 

@@ -2,6 +2,7 @@ package org.example;
 
 
 import java.time.LocalDate;
+import java.util.OptionalDouble;
 import java.util.UUID;
 
 public class Kunde extends Person {
@@ -46,6 +47,7 @@ public class Kunde extends Person {
             return;
         }
         this.ausgewKonto.setKontostandÄnderung(betrag);
+        System.out.println( betrag + "€ wurden eingezahlt");
 
     }
 
@@ -55,6 +57,7 @@ public class Kunde extends Person {
             return;
         }
         this.ausgewKonto.setKontostandÄnderung(-betrag);
+        System.out.println( betrag + "€ wurden ausgezahlt");
     }
     public void kontoLöschen(){
         if (this.ausgewKonto == null){
@@ -62,6 +65,8 @@ public class Kunde extends Person {
             return;
         }
         this.kundenProfil.removeKonto(this.ausgewKonto);
+        this.ausgewKonto = null;
+        // gc collects the object
 
     }
 
@@ -71,6 +76,14 @@ public class Kunde extends Person {
 
     public KundenProfil getKundenProfil() {
         return this.kundenProfil;
+    }
+
+    public OptionalDouble getKontostand(){
+        if (this.ausgewKonto == null){
+            System.out.println("Kein Konto ausgewählt");
+            return OptionalDouble.empty();
+        }
+        return OptionalDouble.of(this.ausgewKonto.getKontostand());
     }
 
 

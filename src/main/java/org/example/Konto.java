@@ -3,7 +3,7 @@ package org.example;
 public class Konto {
 
     private double kontostand;
-    private java.util.UUID kontonummer;
+    private  final java.util.UUID kontonummer;
 
     public Konto(){
         this.kontostand = 0;
