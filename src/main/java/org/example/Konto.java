@@ -3,11 +3,11 @@ package org.example;
 public class Konto {
 
     private double kontostand;
-    private  final java.util.UUID kontonummer;
+    private  final java.util.UUID kontoNummer;
 
     public Konto(){
         this.kontostand = 0;
-        this.kontonummer = java.util.UUID.randomUUID();
+        this.kontoNummer = java.util.UUID.randomUUID();
     }
 
     public void setKontostandÄnderung(double betrag){
@@ -25,7 +25,7 @@ public class Konto {
     }
 
 
-    public java.util.UUID getKontonummer(){
-        return this.kontonummer;
+    public java.util.UUID getKontoNummer(){
+        return this.kontoNummer;
     }
 }

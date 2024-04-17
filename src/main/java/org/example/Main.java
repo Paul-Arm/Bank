@@ -1,6 +1,7 @@
 package org.example;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -15,7 +16,7 @@ public class Main {
                                     LocalDate.of(2020, 1, 8));
 
         System.out.println(max);
-        Filiale filiale1 = new Filiale(max);
+        Filiale filiale1 = new Filiale("Musterstrasse 2",new ArrayList<Mitarbeiter>(){{add(max);}});
         System.out.println("Mitarbeiter in filiale: " + filiale1.getMitarbeiter());
         //Kunde klaus = new Kunde("Klaus", "Klausen", "Klausstrasse 1", LocalDate.of(2020, 1, 8));
         max.kundenprofilErstellen("Klaus",
@@ -31,6 +32,7 @@ public class Main {
         Kunde klaus = max.getBetreuteKunden().stream()
                 .filter(x -> x.getName().equals("Klaus"))
                 .findFirst().orElse(null);
+
         KundenProfil klausKundenprofil = klaus.getKundenProfil();
         Konto klausKonto1 = klausKundenprofil.getKonten().get(0);
         klaus.kontoAuswählen(klausKonto1);
@@ -59,7 +61,14 @@ public class Main {
         klaus.kontoAuswählen(klausKundenprofil.getKonten().get(0));
 
         max.kundenprofilLöschen(klausKundenprofil);
-        klaus = null;
+
+        System.out.println("klaus löscht konto 1");
+        klaus.kontoLöschen();
+        klaus.auszahlen(klaus.getKontostand());
+        System.out.println(klaus.getKontostand() + "€");
+        klaus.kontoLöschen();
+
+        //klaus = null;
         //System.out.println(klaus.getKontostand());
 
         //kunden anzeigen

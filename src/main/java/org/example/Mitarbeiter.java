@@ -14,7 +14,8 @@ public class Mitarbeiter extends Person{
 
     }
 
-    public Mitarbeiter(String name, String vorname, String adresse, LocalDate geburtsdatum, Filiale filiale){
+    public Mitarbeiter(String name, String vorname, String adresse,
+                       LocalDate geburtsdatum, Filiale filiale){
         super(name, vorname, adresse, geburtsdatum);
         this.mitarbeiterNummer = java.util.UUID.randomUUID();
         this.filiale = filiale;
@@ -33,21 +34,34 @@ public class Mitarbeiter extends Person{
                                          Filiale filiale){
         Kunde kunde = new Kunde(name, vorname, adresse, geburtsdatum, betreuer, filiale);
         if (kunde.getAlter() < 18){
+            System.out.println("Kunde muss mindestens 18 Jahre alt sein");
             return false;
         }
 
         KundenProfil kundenProfil = new KundenProfil( betreuer, filiale);
         kunde.setKundenProfil(kundenProfil);
-        filiale.addKunde(kunde);
+        filiale.addKunde(new ArrayList<Kunde>(){{add(kunde);}});
         System.out.println("Kundenprofil erstellt in: " + filiale);
         betreuer.kundeZuweisen(kunde);
         return true;
 
 
     }
+    public void kundenProfilBearbeiten(KundenProfil kundenProfil, Filiale neueFiliale){
+        kundenProfil.setFiliale(neueFiliale);
+    }
+    public void kundenProfilBearbeiten(KundenProfil kundenProfil, Mitarbeiter neuerBetreuer){
+        kundenProfil.setBetreuer(neuerBetreuer);
+    }
 
     public void kundenprofilLöschen(KundenProfil kundenProfil){
 
+        for (Konto konto : kundenProfil.getKonten()){
+            if (konto.getKontostand() != 0){
+                System.out.println("Mindestens ein Konto des Kunden ist nicht leer, daher kann der Kunde nicht gelöscht werden");
+                return;
+            }
+        }
         Mitarbeiter mitarbeiter = kundenProfil.getBetreuer();
         Kunde kunde = mitarbeiter.betreuteKunden.stream().filter(x -> kundenProfil.equals(x.getKundenProfil()))
                 .findFirst()
@@ -58,11 +72,6 @@ public class Mitarbeiter extends Person{
         f.removeKunde(kunde);
 
 
-
-//        if (kunde.getKundenProfil().getBetreuer().filiale != null){
-//            System.out.println("Kunde wird aus der Filiale entfernt");
-//            kunde.getKundenProfil().getBetreuer().filiale.removeKunde(kunde);
-//        }
 
         kunde.getKundenProfil().getBetreuer().betreuteKunden.remove(kunde);
         kunde.setKundenProfil(null);

@@ -46,7 +46,6 @@ public class Person {
 
 
     public int getAlter() {
-        // TODO: Implement this method
         return Period.between(geburtsdatum, LocalDate.now()).getYears();
     }
 

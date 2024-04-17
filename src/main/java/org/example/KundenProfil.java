@@ -31,10 +31,13 @@ public class KundenProfil {
         this.konten.add(konto);
     }
     public void removeKonto(Konto konto){
-        if (this.konten.size() > 1){
+        if (this.konten.size() > 1 && konto.getKontostand() == 0){
 
             this.konten.remove(konto);
-        }else
+        } else if (konto.getKontostand() != 0) {
+            System.out.println("Konto darf nicht gelöscht werden, da noch Geld auf dem Konto ist");
+
+        } else
         {
             System.out.println("Kunde muss mindestens ein Konto haben");
         }
